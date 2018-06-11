@@ -12,6 +12,7 @@
     "ioredis": "^3.2.2",
     "knex": "^0.14.6",
     "koa": "^2.5.1",
+    "objection": "^1.1.10",
     "pg": "^7.4.3"
   },
   "devDependencies": {

@@ -23,3 +23,9 @@ redis:
   image: redis:alpine
   ports:
     - 6379:6379
+
+web:
+  build: .
+  volumes:
+    - .:/home/node/
+    - /home/node/node_modules
