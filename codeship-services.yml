@@ -1,0 +1,10 @@
+example_project_ci:
+  build: .
+  depends_on:
+    - postgres
+  environment:
+    DB_HOST: postgres
+postgres:
+  build: .docker/postgres
+redis:
+  image: healthcheck/redis:alpine

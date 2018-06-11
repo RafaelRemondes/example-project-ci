@@ -1,0 +1,4 @@
+- type: parallel
+  steps:
+    - service: example_project_ci
+      command: /usr/local/bin/npm test
