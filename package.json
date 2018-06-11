@@ -1,0 +1,32 @@
+{
+  "name": "example-project-ci",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest -i --detectOpenHandles"
+  },
+  "author": "Uphold",
+  "license": "ISC",
+  "dependencies": {
+    "ioredis": "^3.2.2",
+    "knex": "^0.14.6",
+    "koa": "^2.5.1",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "jest": "^23.1.0",
+    "knex-cleaner": "^1.1.4",
+    "should": "^13.2.1",
+    "supertest": "^3.1.0"
+  },
+  "jest": {
+    "forceExit": true,
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "setupTestFrameworkScriptFile": "./test/setup.js",
+    "testEnvironment": "node",
+    "testRegex": "test/.*\\.test.js"
+  }
+}
