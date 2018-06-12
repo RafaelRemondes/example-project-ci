@@ -1,0 +1,24 @@
+sudo: required
+
+services:
+  - docker
+
+language: node_js
+
+script: yarn test
+
+cache:
+  apt: true
+  yarn: true
+  directories:
+    - $HOME/cache
+    - node_modules
+
+before_install:
+  - sudo service postgresql stop
+  - sudo docker-compose up -d postgres redis
+  - sudo docker-compose ps
+  - npm install -g yarn@1.0.0
+
+node_js:
+  - 9.3.0
