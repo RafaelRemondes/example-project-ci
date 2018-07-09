@@ -3,7 +3,7 @@ pipeline {
         label "jenkins-nodejs"
     }
     environment {
-      ORG               = 'rafaelremondes'
+      ORG               = 'jx-registry-test'
       APP_NAME          = 'example-project-ci'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
@@ -19,8 +19,8 @@ pipeline {
         }
         steps {
           container('nodejs') {
-            sh "npm install"
-            sh "CI=true DISPLAY=:99 npm test"
+            sh "yarn install"
+            //sh "CI=true DISPLAY=:99 npm test"
 
             sh 'export VERSION=$PREVIEW_VERSION && skaffold run -f skaffold.yaml'
 
@@ -57,7 +57,7 @@ pipeline {
           }
           container('nodejs') {
             sh "npm install"
-            sh "CI=true DISPLAY=:99 npm test"
+            //sh "CI=true DISPLAY=:99 npm test"
 
             sh 'export VERSION=`cat VERSION` && skaffold run -f skaffold.yaml'
 
