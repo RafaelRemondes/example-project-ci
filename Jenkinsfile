@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "jenkins-nodejs"
+        label "jenkins-test-nodejs"
     }
     environment {
       ORG               = 'jx-registry-test'
@@ -18,7 +18,7 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          container('nodejs') {
+          container('test-nodejs') {
             sh "yarn install"
             //sh "CI=true DISPLAY=:99 npm test"
 
@@ -29,7 +29,7 @@ pipeline {
           }
 
           dir ('./charts/preview') {
-           container('nodejs') {
+           container('test-nodejs') {
              sh "make preview"
              sh "jx preview --app $APP_NAME --dir ../.."
            }
@@ -41,7 +41,7 @@ pipeline {
           branch 'master'
         }
         steps {
-          container('nodejs') {
+          container('test-nodejs') {
             // ensure we're not on a detached head
             sh "git checkout master"
             sh "git config --global credential.helper store"
@@ -51,16 +51,15 @@ pipeline {
             sh "echo \$(jx-release-version) > VERSION"
           }
           dir ('./charts/example-project-ci') {
-            container('nodejs') {
+            container('test-nodejs') {
               sh "make tag"
             }
           }
-          container('nodejs') {
+          container('test-nodejs') {
             sh "npm install"
             //sh "CI=true DISPLAY=:99 npm test"
             sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
             //sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
-            sh "docker-compose up"
             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
           }
         }
@@ -71,7 +70,7 @@ pipeline {
         }
         steps {
           dir ('./charts/example-project-ci') {
-            container('nodejs') {
+            container('test-nodejs') {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
               // release the helm chart
