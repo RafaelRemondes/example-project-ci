@@ -57,10 +57,10 @@ pipeline {
           }
           container('test-nodejs') {
             sh "npm install"
-            //sh "CI=true DISPLAY=:99 npm test"
+            sh 'docker-compose up -d'
+            sh "CI=true DISPLAY=:99 npm test"
             sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
             //sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
-            sh 'docker-compose up'
             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
           }
         }
