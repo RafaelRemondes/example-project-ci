@@ -5,7 +5,7 @@ pipeline {
     environment {
       ORG               = 'jx-registry-test'
       APP_NAME          = 'example-project-ci'
-      DB_HOST           = 'localhost'
+      DB_HOST           = '172.17.0.1'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     }
     stages {
