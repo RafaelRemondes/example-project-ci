@@ -57,8 +57,8 @@ pipeline {
             }
           }
           container('test-nodejs') {
-            sh "docker-compose up -d"
-            sh "docker-compose port postgres 5432"
+//            sh "docker-compose up -d"
+//            sh "docker-compose port postgres 5432"
             sh "yarn install"
             sh "yarn test"
             sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
