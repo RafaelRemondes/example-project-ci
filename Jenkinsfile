@@ -22,6 +22,7 @@ pipeline {
           container('test-nodejs') {
             sh "yarn install"
             sh "docker-compose up -d"
+            sh "docker ps"
             sh "yarn test"
 
             sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
