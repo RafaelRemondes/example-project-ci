@@ -42,7 +42,7 @@ pipeline {
         when {
           branch 'master'
         }
-        steps {
+        stage('Set Up Git') {
           container('test-nodejs') {
             // ensure we're not on a detached head
             sh "git checkout master"
@@ -57,7 +57,8 @@ pipeline {
               sh "make tag"
             }
           }
-          stage(Build) {
+        }
+        stage(Build) {
              parallel {
                  stage('install dependencies') {
                      container('test-nodejs') {
@@ -75,15 +76,14 @@ pipeline {
                      }
                  }
              }
-          }
-          stage('run tests') {
-		  container('test-nodejs') {
-			  sh "yarn test"
-	                //sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
-		          sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
-		  }
-	  }
         }
+        stage('run tests') {
+          container('test-nodejs') {
+	     sh "yarn test"
+	   //sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
+             sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+          }
+	}  
       }
       stage('Promote to Environments') {
         when {
