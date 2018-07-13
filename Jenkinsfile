@@ -89,7 +89,7 @@ pipeline {
 				container('test-nodejs') {
 					sh "yarn test"
 				      //sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
-				      //sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+				        sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
 				}
 			}  
 		}
@@ -100,7 +100,6 @@ pipeline {
 			steps {
 				dir ('./charts/example-project-ci') {
 					container('test-nodejs') {
-					        sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
 						sh 'jx step changelog --version v\$(cat ../../VERSION)'
 						sh 'jx step helm release'
                                       		//sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION)'
