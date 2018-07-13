@@ -59,20 +59,26 @@ pipeline {
 			}
 			parallel {
 				stage('install dependencies') {
-					container('test-nodejs') {
-						sh "yarn install"
-					}
+                                        steps {
+						container('test-nodejs') {
+							sh "yarn install"
+						}
+                                        }
 				}
 				stage('start services') {
-					container('test-nodejs') {
-						sh "docker-compose up -d"
-					}
+                                        steps {
+						container('test-nodejs') {
+							sh "docker-compose up -d"
+						}
+                                        }
 				}
 				stage('auth') {
-					container('test-nodejs') {
-						sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
+                                        steps {
+						container('test-nodejs') {
+							sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
+						}
 					}
-				}
+                               }	
 			}
 		}
 		stage('run tests and deploy') {
