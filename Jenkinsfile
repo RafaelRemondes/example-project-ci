@@ -57,8 +57,8 @@ pipeline {
             }
           }
           container('test-nodejs') {
+            sh 'docker-compose up'
             sh "yarn install"
-            sh 'docker-compose up -d'
             sh "yarn test"
             sh 'gcloud auth activate-service-account rafaelremondes@jx-registry-test.iam.gserviceaccount.com --key-file=/home/jenkins/.auth/JX-Registry-Test-84e5f80822db.json'
             sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
